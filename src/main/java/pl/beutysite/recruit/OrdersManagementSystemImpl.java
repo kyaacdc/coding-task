@@ -6,8 +6,7 @@ import pl.beutysite.recruit.orders.Order;
 import pl.beutysite.recruit.orders.PriorityOrder;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
@@ -15,10 +14,8 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
     private final TaxOfficeAdapter taxOfficeAdapter;
     private final ItemsRepository itemsRepository;
 
-
-    // TODO: 01.03.17 should will change collection type to correct queue (LinkedHashSet or ArrayDeque) and must correct sort before it.
-    private Set<Order> ordersQueue=new HashSet<Order>();
-    private Order newOrder=null;
+    private Set<Order> ordersQueue = new LinkedHashSet<>();
+    private Order newOrder = null;
 
     public OrdersManagementSystemImpl(TaxOfficeAdapter taxOfficeAdapter, ItemsRepository itemsRepository) {
         this.taxOfficeAdapter = taxOfficeAdapter;
@@ -31,9 +28,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         //fetch price and calculate discount and taxes
         BigDecimal itemPrice = itemsRepository.fetchItemPrice(itemId);
 
-
-        // TODO: 01.03.17 must will make realy queue with loop for add all of arguments OrderFlag
-        //create and queue order
+        //Create order and add in queue
         OrderFlag flag = flags[0];
         switch (flag) {
             case STANDARD: newOrder = new Order(itemId,customerId,itemPrice); break;
@@ -46,14 +41,16 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
         // TODO: 01.03.17 should refactor it with change of use Iterator on Stream API and Lyambdas Java8
         //JIRA-18883 Fix priority orders not always being fetched first
+
         if (OrderFlag.PRIORITY.equals(flag)) {
-            while (fetchNextOrder()!=newOrder) {
+            while (fetchNextOrder()!=newOrder) { // TODO: 01.03.17 Must fix this bug because we cannot compare to objects with != operator
                 ordersQueue.remove(newOrder);
                 newOrder=new PriorityOrder(itemId,customerId,itemPrice);
                 ordersQueue.add(newOrder);
             }
             ordersQueue.add(newOrder);
         }
+
 
         //send tax due amount
         taxOfficeAdapter.registerTax(newOrder.getTax());
