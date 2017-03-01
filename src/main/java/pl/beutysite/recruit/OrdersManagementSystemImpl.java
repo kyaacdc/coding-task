@@ -31,7 +31,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         BigDecimal itemPrice = itemsRepository.fetchItemPrice(itemId);
 
         //create and queue order
-        OrderFlag flag=flags[0];
+        OrderFlag flag = flags[0];
         switch (flag) {
             case STANDARD: newOrder=new Order(itemId,customerId,itemPrice); break;
             case PRIORITY: newOrder=new PriorityOrder(itemId,customerId,itemPrice); break;
