@@ -45,7 +45,7 @@ public class OrdersManagementSystemImplTest {
     }
 
     //Ignoring cause assertion is failing with small difference in tax amount - should be nothing serious
-    @Ignore
+    //@Ignore
     @Test
     public void tax_amount_sent_to_tax_office_should_be_correct() {
 

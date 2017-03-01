@@ -33,10 +33,10 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         //create and queue order
         OrderFlag flag = flags[0];
         switch (flag) {
-            case STANDARD: newOrder=new Order(itemId,customerId,itemPrice); break;
-            case PRIORITY: newOrder=new PriorityOrder(itemId,customerId,itemPrice); break;
-            case INTERNATIONAL: newOrder=new InternationalOrder(itemId,customerId,itemPrice); break;
-            case DISCOUNTED: newOrder=new DiscountedOrder(itemId,customerId,itemPrice); break;
+            case STANDARD: newOrder = new Order(itemId,customerId,itemPrice); break;
+            case PRIORITY: newOrder = new PriorityOrder(itemId,customerId,itemPrice); break;
+            case INTERNATIONAL: newOrder = new InternationalOrder(itemId,customerId,itemPrice); break;
+            case DISCOUNTED: newOrder = new DiscountedOrder(itemId,customerId,itemPrice); break;
         }
 
         ordersQueue.add(newOrder);
