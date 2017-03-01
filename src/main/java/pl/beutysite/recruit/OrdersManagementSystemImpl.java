@@ -16,6 +16,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
     private final ItemsRepository itemsRepository;
 
 
+    // TODO: 01.03.17 should will change collection type to correct queue (LinkedHashSet or ArrayDeque) and must correct sort before it.
     private Set<Order> ordersQueue=new HashSet<Order>();
     private Order newOrder=null;
 
@@ -30,6 +31,8 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         //fetch price and calculate discount and taxes
         BigDecimal itemPrice = itemsRepository.fetchItemPrice(itemId);
 
+
+        // TODO: 01.03.17 must will make realy queue with loop for add all of arguments OrderFlag
         //create and queue order
         OrderFlag flag = flags[0];
         switch (flag) {
@@ -41,6 +44,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
         ordersQueue.add(newOrder);
 
+        // TODO: 01.03.17 should refactor it with change of use Iterator on Stream API and Lyambdas Java8
         //JIRA-18883 Fix priority orders not always being fetched first
         if (OrderFlag.PRIORITY.equals(flag)) {
             while (fetchNextOrder()!=newOrder) {

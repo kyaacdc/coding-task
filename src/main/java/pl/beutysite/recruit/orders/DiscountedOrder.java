@@ -18,6 +18,7 @@ public class DiscountedOrder extends Order {
         return TaxCalculationsHelper.subtractPercentage(super.getPrice(), new BigDecimal("11"));
     }
 
+    @Override
     public void process() {
         SeriousEnterpriseEventBus seeb = SeriousEnterpriseEventBusLookup.seeb;
         seeb.sendEvent("Order processing started");

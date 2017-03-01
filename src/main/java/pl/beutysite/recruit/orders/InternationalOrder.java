@@ -13,11 +13,14 @@ public class InternationalOrder extends Order {
         super(itemId, customerId, price);
     }
 
+    //Get value of tax from base price
+    @Override //Add annotation @Override for beter code compilation when debug
     public BigDecimal getTax() {
         //calculating international tax - 15.0% 
-        return TaxCalculationsHelper.getPercentagePart(getPrice(), new BigDecimal("15.0")); // TODO: 01.03.17  
+        return TaxCalculationsHelper.getPercentagePart(getPrice(), new BigDecimal("15.0")); // TODO: 01.03.17 test
     }
 
+    @Override
     public void process() {
         SeriousEnterpriseEventBus seeb = SeriousEnterpriseEventBusLookup.seeb;
         seeb.sendEvent("Order processing started");

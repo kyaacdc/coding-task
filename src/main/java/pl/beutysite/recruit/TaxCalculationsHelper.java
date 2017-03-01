@@ -14,9 +14,8 @@ public class TaxCalculationsHelper {
         return base.add(getPercentagePart(base, percentage),mathContext);
     }
 
-
     //Get amount from base price by percentage
-    public static BigDecimal getPercentagePart(BigDecimal base, BigDecimal percentage) {
+    public static BigDecimal getPercentagePart(BigDecimal base, BigDecimal percentage) { // TODO: 01.03.17 tests
         return base.divide(percentage, mathContext);
 
         //Here is mistake, that was in old program release, that repaired myself.
