@@ -112,7 +112,8 @@ public class OrdersManagementSystemImplTest {
         assertThat(nextOrder.getItemId()).isEqualTo(2);
     }
 
-    //Ignoring cause assertion is failing with small difference in tax amount - should be nothing seriousIgnore
+    //Ignoring cause assertion is failing with small difference in tax amount - should be nothing serious
+    //@Ignore
     @Test
     public void tax_amount_sent_to_tax_office_should_be_correct() {
 

@@ -14,7 +14,6 @@ public class Order {
     private final BigDecimal price;
     private List<OrderFlag> orderFlags;
 
-    //for performance reasons lets pre-calculate it in constructor
     private int preCalculatedHashCode = 0;
 
     private static Random random = new Random();
@@ -78,6 +77,12 @@ public class Order {
                 .round(new MathContext(4, RoundingMode.CEILING));
     }
 
+    /**
+     * Method getOrderFlags() is getter and needed
+     * for get order flags such as PRIORITY,DISCOUNTED, STANDARD, INTERNATIONAL values
+     * the tax will be get from super class and calculating like standard tax - 23.5%
+     * @return List<OrderFlag> orderFlags
+     */
     public List<OrderFlag> getOrderFlags() {
         return orderFlags;
     }
@@ -94,9 +99,26 @@ public class Order {
         this.preCalculatedHashCode = preCalculatedHashCode;
     }
 
+    //@Override
+    //public int hashCode() {
+    //    return preCalculatedHashCode;
+    //}
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (itemId != order.itemId) return false;
+        if (customerId != order.customerId) return false;
+        return preCalculatedHashCode == order.preCalculatedHashCode;
+    }
+
     @Override
     public int hashCode() {
         return preCalculatedHashCode;
     }
-
 }

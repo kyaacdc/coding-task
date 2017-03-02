@@ -61,9 +61,10 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         ordersQueue = new ArrayDeque<>();
 
         Deque<Order> finalOrdersQueue = ordersQueue;
-        queuePriority.forEach(a -> finalOrdersQueue.offerLast(a));
+        queuePriority.forEach(finalOrdersQueue::offerLast);
         Deque<Order> finalOrdersQueue1 = ordersQueue;
-        queueNoPriority.forEach(a -> finalOrdersQueue1.offerLast(a));
+        queueNoPriority.forEach(finalOrdersQueue1::offerLast);
+
         return ordersQueue;
     }
 
