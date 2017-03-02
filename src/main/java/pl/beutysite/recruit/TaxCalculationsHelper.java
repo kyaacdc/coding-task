@@ -26,4 +26,14 @@ public class TaxCalculationsHelper {
     public static BigDecimal subtractPercentage(BigDecimal base, BigDecimal percentage) {
         return base.subtract(getPercentagePart(base, percentage),mathContext);
     }
+
+    //Get middle percentage for combined order with all Order Flags
+    public static BigDecimal getMiddlePercentageAll(BigDecimal value1, BigDecimal value2, BigDecimal value3) {
+        return value1.multiply(value2, mathContext).multiply(value3, mathContext).divide(new BigDecimal("3"), mathContext);
+    }
+
+    //Get middle percentage for combined order with two Order Flags
+    public static BigDecimal getMiddlePercentage(BigDecimal value1, BigDecimal value2) {
+        return value1.multiply(value2, mathContext).divide(new BigDecimal("2"), mathContext);
+    }
 }

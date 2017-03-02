@@ -1,12 +1,11 @@
 package pl.beutysite.recruit;
 
-import pl.beutysite.recruit.orders.DiscountedOrder;
-import pl.beutysite.recruit.orders.InternationalOrder;
-import pl.beutysite.recruit.orders.Order;
-import pl.beutysite.recruit.orders.PriorityOrder;
+import pl.beutysite.recruit.orders.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+
+import static pl.beutysite.recruit.OrderFlag.*;
 
 public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
@@ -14,7 +13,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
     private final TaxOfficeAdapter taxOfficeAdapter;
     private final ItemsRepository itemsRepository;
 
-    private Set<Order> ordersQueue = new LinkedHashSet<>();
+    private Deque<Order> ordersQueue = new ArrayDeque<>();
     private Order newOrder = null;
 
     public OrdersManagementSystemImpl(TaxOfficeAdapter taxOfficeAdapter, ItemsRepository itemsRepository) {
@@ -28,29 +27,33 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         //fetch price and calculate discount and taxes
         BigDecimal itemPrice = itemsRepository.fetchItemPrice(itemId);
 
-        //Create order and add in queue
-        OrderFlag flag = flags[0];
-        switch (flag) {
-            case STANDARD: newOrder = new Order(itemId,customerId,itemPrice); break;
-            case PRIORITY: newOrder = new PriorityOrder(itemId,customerId,itemPrice); break;
-            case INTERNATIONAL: newOrder = new InternationalOrder(itemId,customerId,itemPrice); break;
-            case DISCOUNTED: newOrder = new DiscountedOrder(itemId,customerId,itemPrice); break;
-        }
+        List<OrderFlag> orderFlags = Arrays.asList(flags);
 
-        ordersQueue.add(newOrder);
-
-        // TODO: 01.03.17 should refactor it with change of use Iterator on Stream API and Lyambdas Java8
-        //JIRA-18883 Fix priority orders not always being fetched first
-
-        if (OrderFlag.PRIORITY.equals(flag)) {
-            while (fetchNextOrder()!=newOrder) { // TODO: 01.03.17 Must fix this bug because we cannot compare to objects with != operator
-                ordersQueue.remove(newOrder);
-                newOrder=new PriorityOrder(itemId,customerId,itemPrice);
-                ordersQueue.add(newOrder);
+        if(orderFlags.size() == 1) {
+            switch (orderFlags.get(0)) {
+                case STANDARD:
+                    newOrder = new Order(itemId, customerId, orderFlags, itemPrice);
+                    break;
+                case PRIORITY:
+                    newOrder = new PriorityOrder(itemId, customerId, orderFlags, itemPrice);
+                    break;
+                case INTERNATIONAL:
+                    newOrder = new InternationalOrder(itemId, customerId, orderFlags, itemPrice);
+                    break;
+                case DISCOUNTED:
+                    newOrder = new DiscountedOrder(itemId, customerId, orderFlags, itemPrice);
+                    break;
             }
-            ordersQueue.add(newOrder);
-        }
+        } else if(orderFlags.contains(STANDARD))
+            newOrder = new Order(itemId, customerId, orderFlags, itemPrice);
+        else
+            newOrder= new SpecialOrder(itemId, customerId, orderFlags, itemPrice);
 
+
+        if(orderFlags.contains(PRIORITY))
+            ordersQueue.offerFirst(newOrder);
+        else
+            ordersQueue.offerLast(newOrder);
 
         //send tax due amount
         taxOfficeAdapter.registerTax(newOrder.getTax());
@@ -58,6 +61,6 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
     @Override
     public Order fetchNextOrder() {
-        return ordersQueue.iterator().next();
+        return ordersQueue.pollFirst();
     }
 }

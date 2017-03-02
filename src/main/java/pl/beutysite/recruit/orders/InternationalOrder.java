@@ -1,20 +1,18 @@
 package pl.beutysite.recruit.orders;
 
-import pl.beutysite.recruit.SeriousEnterpriseEventBus;
-import pl.beutysite.recruit.SeriousEnterpriseEventBusLookup;
-import pl.beutysite.recruit.TaxCalculationsHelper;
-
+import pl.beutysite.recruit.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 //TODO will have more taxes calculated
 public class InternationalOrder extends Order {
 
-    public InternationalOrder(int itemId, int customerId, BigDecimal price) {
-        super(itemId, customerId, price);
+    public InternationalOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
+        super(itemId, customerId, orderFlags, price);
     }
 
     //Get value of tax from base price
-    @Override //Add annotation @Override for beter code compilation when debug
+    @Override
     public BigDecimal getTax() {
         //calculating international tax - 15.0% 
         return TaxCalculationsHelper.getPercentagePart(getPrice(), new BigDecimal("15.0")); // TODO: 01.03.17 test

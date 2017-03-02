@@ -1,15 +1,13 @@
 package pl.beutysite.recruit.orders;
 
-import pl.beutysite.recruit.SeriousEnterpriseEventBus;
-import pl.beutysite.recruit.SeriousEnterpriseEventBusLookup;
-import pl.beutysite.recruit.TaxCalculationsHelper;
-
+import pl.beutysite.recruit.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class DiscountedOrder extends Order {
 
-    public DiscountedOrder(int itemId, int customerId, BigDecimal price) {
-        super(itemId, customerId, price);
+    public DiscountedOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
+        super(itemId, customerId, orderFlags, price);
     }
 
     @Override

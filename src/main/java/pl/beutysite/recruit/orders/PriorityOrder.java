@@ -1,17 +1,18 @@
 package pl.beutysite.recruit.orders;
 
+import pl.beutysite.recruit.OrderFlag;
 import pl.beutysite.recruit.SeriousEnterpriseEventBus;
 import pl.beutysite.recruit.SeriousEnterpriseEventBusLookup;
 import pl.beutysite.recruit.TaxCalculationsHelper;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class PriorityOrder extends Order {
 
-    public PriorityOrder(int itemId, int customerId, BigDecimal price) {
-        super(itemId, customerId, price);
+    public PriorityOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
+        super(itemId, customerId, orderFlags, price);
     }
-
     public void process() {
         SeriousEnterpriseEventBus seeb = SeriousEnterpriseEventBusLookup.seeb;
         seeb.sendEvent("Order processing started");
