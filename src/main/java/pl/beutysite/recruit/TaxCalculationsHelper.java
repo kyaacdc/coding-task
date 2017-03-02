@@ -16,7 +16,9 @@ public class TaxCalculationsHelper {
 
     //Get amount from base price by percentage
     public static BigDecimal getPercentagePart(BigDecimal base, BigDecimal percentage) {
-        return base.divide(percentage, mathContext).divide(new BigDecimal(100),mathContext);
+        //return base.m(percentage, mathContext).divide(new BigDecimal(100),mathContext);
+        return base.multiply(percentage, mathContext).divide(new BigDecimal(100),mathContext);
+
     }
 
     //Decrease percentage "-"
@@ -26,7 +28,7 @@ public class TaxCalculationsHelper {
 
     //Get middle percentage for combined order with all Order Flags
     public static BigDecimal getMiddlePercentageAll(BigDecimal value1, BigDecimal value2, BigDecimal value3) {
-        return value1.multiply(value2, mathContext).multiply(value3, mathContext).divide(new BigDecimal("3"), mathContext);
+        return value1.multiply(value2, mathContext).add(value3, mathContext).divide(new BigDecimal("3"), mathContext);
     }
 
     //Get middle percentage for combined order with two Order Flags

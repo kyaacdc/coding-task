@@ -14,8 +14,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import static org.hamcrest.Matchers.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class OrdersManagementSystemImplTest {
 
@@ -51,23 +49,49 @@ public class OrdersManagementSystemImplTest {
         //then
         Order nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("20.07"));
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("19.05"));
 
         nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("40.14"));
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("40.30"));
 
         nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("50.15"));
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("47.63"));
 
         nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("60.2"));
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("57.15"));
 
         nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("10.00"));
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("9.45"));
+    }
+
+    @Test
+    public void taxShouldBeReturnedCorrectForInternationalCominedAndOtherOrders() {
+        //given
+        given(itemsRepository.fetchItemPrice(1)).willReturn(new BigDecimal("100.00"));
+        given(itemsRepository.fetchItemPrice(2)).willReturn(new BigDecimal("100.00"));
+        given(itemsRepository.fetchItemPrice(3)).willReturn(new BigDecimal("100.00"));
+
+        //when
+        ordersManagementSystem.createOrder(1, 1, OrderFlag.INTERNATIONAL);
+        ordersManagementSystem.createOrder(2, 1, OrderFlag.DISCOUNTED, OrderFlag.PRIORITY);
+        ordersManagementSystem.createOrder(3, 1, OrderFlag.DISCOUNTED, OrderFlag.INTERNATIONAL);
+
+        //then
+        Order nextOrder = ordersManagementSystem.fetchNextOrder();
+        assertThat(nextOrder).isNotNull();
+        assertThat(nextOrder.getTax()).isEqualTo(new BigDecimal("22.39")); //first priority
+
+        nextOrder = ordersManagementSystem.fetchNextOrder();
+        assertThat(nextOrder).isNotNull();
+        assertThat(nextOrder.getTax()).isEqualTo(new BigDecimal("15")); //second international
+
+        nextOrder = ordersManagementSystem.fetchNextOrder();
+        assertThat(nextOrder).isNotNull();
+        assertThat(nextOrder.getTax()).isEqualTo(new BigDecimal("14.18")); //third combined international
     }
 
     @Test

@@ -10,12 +10,21 @@ public class DiscountedOrder extends Order {
         super(itemId, customerId, price, orderFlags);
     }
 
+    /**
+     *   Method getPrice needed for get price of order, that should be
+     *   standard discounted - 11%, by base price that situated in super class.
+     *  @return BigDecimal value of price with substracted standart
+     *  discount
+     */
     @Override
     public BigDecimal getPrice() {
-        //subtracting standard discount - 11%
         return TaxCalculationsHelper.subtractPercentage(super.getPrice(), new BigDecimal("11"));
     }
 
+    /**
+     *   Method process should for execute/sent events: started,
+     *   checking, init shipment, and finalize
+     */
     @Override
     public void process() {
         SeriousEnterpriseEventBus seeb = SeriousEnterpriseEventBusLookup.seeb;

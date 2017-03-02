@@ -15,7 +15,7 @@ public class InternationalOrder extends Order {
     @Override
     public BigDecimal getTax() {
         //calculating international tax - 15.0% 
-        return TaxCalculationsHelper.getPercentagePart(getPrice(), new BigDecimal("15.0")); // TODO: 01.03.17 test
+        return TaxCalculationsHelper.getPercentagePart(getPrice(), new BigDecimal("15.0"));
     }
 
     @Override
