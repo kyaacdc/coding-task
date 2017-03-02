@@ -16,6 +16,7 @@ public class SpecialOrder extends Order{
 
     @Override
     public BigDecimal getPrice() {
+
         BigDecimal priceDISCOUNTED = subtractPercentage(super.getPrice(), new BigDecimal("11"));
         BigDecimal pricePRIORITY = addPercentage(super.getPrice(), new BigDecimal("1.5"));
         BigDecimal priceINTERNATIONAL = super.getPrice();
