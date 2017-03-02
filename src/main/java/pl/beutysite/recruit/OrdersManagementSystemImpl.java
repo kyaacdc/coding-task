@@ -13,12 +13,13 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
     private final TaxOfficeAdapter taxOfficeAdapter;
     private final ItemsRepository itemsRepository;
 
-    private Deque<Order> ordersQueue = new ArrayDeque<>();
+    private Deque<Order> ordersQueue;
     private Order newOrder = null;
 
     public OrdersManagementSystemImpl(TaxOfficeAdapter taxOfficeAdapter, ItemsRepository itemsRepository) {
         this.taxOfficeAdapter = taxOfficeAdapter;
         this.itemsRepository = itemsRepository;
+        ordersQueue = new ArrayDeque<>();
     }
 
     @Override

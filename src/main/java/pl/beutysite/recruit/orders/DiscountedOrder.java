@@ -11,7 +11,7 @@ public class DiscountedOrder extends Order {
     }
 
     /**
-     *   Method getPrice needed for get price of order, that should be
+     *   Method getPrice needed for get price of order, that should for
      *   standard discounted - 11%, by base price that situated in super class.
      *  @return BigDecimal value of price with substracted standart
      *  discount

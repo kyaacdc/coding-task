@@ -14,6 +14,13 @@ public class SpecialOrder extends Order{
         super(itemId, customerId, price, orderFlags);
     }
 
+    /**
+     *   Method getPrice needed for get price of order, that should for
+     *   special combined order, by base price that situated in super class.'
+     *   And also get price depend from enum type of OrderFlag that can be with
+     *   some various composition: PRIORITY, DISCOUNTED, INTERNATIONAL
+     *  @return BigDecimal value of price with include Percentage
+     */
     @Override
     public BigDecimal getPrice() {
 
@@ -40,6 +47,18 @@ public class SpecialOrder extends Order{
             return super.getPrice();
     }
 
+    /**
+     *   Method getTax is override superClass and needed
+     *   for calculate tax value of order, that should be
+     *   international type with 11% of tax, by calculated price'
+     *   if OrderFlag INTERNATIONAL value .
+     *   Or if OrderFlag has another value, such as PRIORITY,'
+     *   DISCOUNTED or STANDARD values and not contain INTERNATIONAL value
+     *   the tax will be get from super class and calculating like
+     *   standard tax - 23.5%
+     *   @return BigDecimal value of tax with getPercentagePart
+     *  discount
+     */
     @Override
     public BigDecimal getTax() {
         if(getOrderFlags().contains(INTERNATIONAL))

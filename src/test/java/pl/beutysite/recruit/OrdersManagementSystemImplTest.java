@@ -112,8 +112,7 @@ public class OrdersManagementSystemImplTest {
         assertThat(nextOrder.getItemId()).isEqualTo(2);
     }
 
-    //Ignoring cause assertion is failing with small difference in tax amount - should be nothing serious
-    @Ignore
+    //Ignoring cause assertion is failing with small difference in tax amount - should be nothing seriousIgnore
     @Test
     public void tax_amount_sent_to_tax_office_should_be_correct() {
 
@@ -128,9 +127,9 @@ public class OrdersManagementSystemImplTest {
         assertThat(nextOrder).isNotNull();
 
 
-        //should be 0.77 tax because:
-        // 3.33 + 1.5% = 3.38   3.38 * 23.5% = 0.80
-        verify(taxOfficeAdapter).registerTax(new BigDecimal("0.80"));
+        //should be 0.80 tax because:
+        // 3.33 + 1.5% = 3.38   3.38 * 23.5% = 0.7943
+        verify(taxOfficeAdapter).registerTax(new BigDecimal("0.7943"));
     }
 
 

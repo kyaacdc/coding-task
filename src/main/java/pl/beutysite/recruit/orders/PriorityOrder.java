@@ -15,8 +15,8 @@ public class PriorityOrder extends Order {
     }
 
     /**
-     *   Method getPrice needed for get price of order, that should be
-     *   priority, by base price that situated in super class.
+     *   Method getPrice needed for get price of order, that should for
+     *   priority orders, by base price that situated in super class.
      *   This method increase you price on 1,5 %
      *  @return BigDecimal value of price with add Percentage.
      *  discount
