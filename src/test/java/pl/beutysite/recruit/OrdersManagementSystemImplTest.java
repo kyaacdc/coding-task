@@ -1,12 +1,15 @@
 package pl.beutysite.recruit;
 
 import pl.beutysite.recruit.orders.Order;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import pl.beutysite.recruit.orders.enums.OrderFlag;
+import pl.beutysite.recruit.repositories.ItemsRepository;
+import pl.beutysite.recruit.service.OrdersManagementSystemImpl;
+import pl.beutysite.recruit.utils.TaxOfficeAdapter;
 
 import java.math.BigDecimal;
 
