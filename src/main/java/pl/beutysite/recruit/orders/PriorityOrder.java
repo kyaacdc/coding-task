@@ -1,9 +1,9 @@
 package pl.beutysite.recruit.orders;
 
-import pl.beutysite.recruit.OrderFlag;
-import pl.beutysite.recruit.SeriousEnterpriseEventBus;
-import pl.beutysite.recruit.SeriousEnterpriseEventBusLookup;
-import pl.beutysite.recruit.TaxCalculationsHelper;
+import pl.beutysite.recruit.service.SeriousEnterpriseEventBus;
+import pl.beutysite.recruit.service.SeriousEnterpriseEventBusLookup;
+import pl.beutysite.recruit.orders.enums.OrderFlag;
+import pl.beutysite.recruit.utils.TaxCalculationsHelper;
 
 import java.math.BigDecimal;
 import java.util.List;

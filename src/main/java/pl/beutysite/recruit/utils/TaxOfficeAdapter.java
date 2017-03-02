@@ -1,4 +1,4 @@
-package pl.beutysite.recruit;
+package pl.beutysite.recruit.utils;
 
 import java.math.BigDecimal;
 

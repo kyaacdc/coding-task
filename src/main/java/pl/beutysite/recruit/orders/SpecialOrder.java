@@ -1,12 +1,13 @@
 package pl.beutysite.recruit.orders;
 
-import pl.beutysite.recruit.*;
+import pl.beutysite.recruit.orders.enums.OrderFlag;
+import pl.beutysite.recruit.utils.TaxCalculationsHelper;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import static pl.beutysite.recruit.OrderFlag.*;
-import static pl.beutysite.recruit.TaxCalculationsHelper.*;
+import static pl.beutysite.recruit.orders.enums.OrderFlag.*;
+import static pl.beutysite.recruit.utils.TaxCalculationsHelper.*;
 
 public class SpecialOrder extends Order{
 

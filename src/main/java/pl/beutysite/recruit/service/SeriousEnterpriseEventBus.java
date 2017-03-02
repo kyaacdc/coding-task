@@ -1,4 +1,4 @@
-package pl.beutysite.recruit;
+package pl.beutysite.recruit.service;
 
 public interface SeriousEnterpriseEventBus {
     public void sendEvent(String event);

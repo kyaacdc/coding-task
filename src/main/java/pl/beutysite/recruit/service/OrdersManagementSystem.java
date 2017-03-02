@@ -1,5 +1,6 @@
-package pl.beutysite.recruit;
+package pl.beutysite.recruit.service;
 
+import pl.beutysite.recruit.orders.enums.OrderFlag;
 import pl.beutysite.recruit.orders.Order;
 
 public interface OrdersManagementSystem {

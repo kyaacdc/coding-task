@@ -1,11 +1,14 @@
-package pl.beutysite.recruit;
+package pl.beutysite.recruit.service;
 
+import pl.beutysite.recruit.orders.enums.OrderFlag;
+import pl.beutysite.recruit.utils.TaxOfficeAdapter;
 import pl.beutysite.recruit.orders.*;
+import pl.beutysite.recruit.repositories.ItemsRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
 
-import static pl.beutysite.recruit.OrderFlag.*;
+import static pl.beutysite.recruit.orders.enums.OrderFlag.*;
 
 public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
