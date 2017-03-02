@@ -49,8 +49,22 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         else
             newOrder = new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
 
-        if(orderFlags.contains(PRIORITY))
-            ordersQueue.offerFirst(newOrder);
+        if(orderFlags.contains(PRIORITY)) {
+
+            boolean isAdded = false;
+            int size = ordersQueue.size();
+            for (int i = 0; i < size; i++){
+                Order o = ordersQueue.getFirst();
+                if(o.getOrderFlags().contains(PRIORITY)) {
+                    ordersQueue.remove(o);
+                    ordersQueue.offerFirst(newOrder);
+                    ordersQueue.offerFirst(o);
+                    isAdded = true;
+                }
+            }
+            if(!isAdded)
+                ordersQueue.offerFirst(newOrder);
+        }
         else
             ordersQueue.offerLast(newOrder);
 

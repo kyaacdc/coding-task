@@ -6,8 +6,8 @@ import java.math.RoundingMode;
 
 public class TaxCalculationsHelper {
 
-    private final static int CURRENCY_SCALE=2;
-    private final static MathContext mathContext=new MathContext(CURRENCY_SCALE, RoundingMode.UP);
+    private final static int CURRENCY_SCALE = 4;
+    private final static MathContext mathContext = new MathContext(CURRENCY_SCALE, RoundingMode.UP);
 
     //Increase percentage "+"
     public static BigDecimal addPercentage(BigDecimal base, BigDecimal percentage) {
@@ -15,7 +15,7 @@ public class TaxCalculationsHelper {
     }
 
     //Get amount from base price by percentage
-    public static BigDecimal getPercentagePart(BigDecimal base, BigDecimal percentage) { // TODO: 01.03.17 tests
+    public static BigDecimal getPercentagePart(BigDecimal base, BigDecimal percentage) {
         return base.divide(percentage, mathContext).divide(new BigDecimal(100),mathContext);
 
         //Here is mistake, that was in old program release, that repaired myself.
