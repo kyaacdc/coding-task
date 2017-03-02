@@ -12,7 +12,6 @@ import static pl.beutysite.recruit.orders.enums.OrderFlag.*;
 
 public class OrdersManagementSystemImpl implements OrdersManagementSystem {
 
-    //external systems
     private final TaxOfficeAdapter taxOfficeAdapter;
     private final ItemsRepository itemsRepository;
 
@@ -25,6 +24,15 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         ordersQueue = new ArrayDeque<>();
     }
 
+    /**
+     *   Method createOrder is create new Order and add it in
+     *   queue by FIFO with sorting by priority if need. Also
+     *   this method register tax in taxOfficeAdapter
+     *   @param itemId with int type - item ID
+     *   @param customerId with int type - customer ID
+     *   @param flags with OrderFlag type - is vararg parameter
+     *                for set order types
+     */
     @Override
     public void createOrder(int itemId, int customerId, OrderFlag... flags) {
 
@@ -41,13 +49,25 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         taxOfficeAdapter.registerTax(newOrder.getTax());
     }
 
-
+    /**
+     *   Method fetchNextOrder() get new Order from
+     *   orders queue
+     *   @return Order next object in queue of orders
+     */
     @Override
     public Order fetchNextOrder() {
         return ordersQueue.pollFirst();
     }
 
 
+    /**
+     *   Method sortQueueByPriority is sort all queue
+     *   of orders by FIFO and by priority
+     *   @param ordersQueue with Deque<Order> type - this
+     *                      queue that created only by FIFO
+     *                      without sort by Priority
+     *   @return Deque<Order> sorted queue by priority
+     */
     private Deque<Order> sortQueueByPriority(Deque<Order> ordersQueue) {
         Deque<Order> queuePriority = new ArrayDeque<>();
         Deque<Order> queueNoPriority = new ArrayDeque<>();
@@ -66,6 +86,17 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         return queuePriority;
     }
 
+    /**
+     *   Method getOrderInstance is choose instance type
+     *   by OrderFlag and return new instance of Order for
+     *   add into queue
+     *   @param itemId with int type - item ID
+     *   @param customerId with int type - customer ID
+     *   @param orderFlags with List<OrderFlag> type - is parameter
+     *                for set order types and choose type of Order
+     *                     instanse
+     *   @return Order that than we can add into queue
+     */
     private Order getOrderInstance(int itemId, int customerId, List<OrderFlag> orderFlags) {
 
         //fetch price and calculate discount and taxes
