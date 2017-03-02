@@ -80,6 +80,7 @@ public class OrdersManagementSystemImplTest {
         //when
         ordersManagementSystem.createOrder(1, 1, OrderFlag.STANDARD);
         ordersManagementSystem.createOrder(2, 1, OrderFlag.PRIORITY);
+
         Order nextOrder = ordersManagementSystem.fetchNextOrder();
 
         //then

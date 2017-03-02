@@ -48,41 +48,8 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         else
             newOrder = new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
 
-/*
-            Deque<Order> queueNoPriority = new ArrayDeque<>();
-            Deque<Order> queuePriority = new ArrayDeque<>();
-            for(Order o: ordersQueue) {
-                for(OrderFlag of: o.getOrderFlags())
-                    if(!of.equals(PRIORITY)) {
-                        queueNoPriority.add(o);
-                        break;
-                    }
-            }
-
-            ordersQueue = queueNoPriority;
-            */
-
-        Deque<Order> queuePriority = new ArrayDeque<>();
-        Deque<Order> queueNoPriority = new ArrayDeque<>();
-
-        if(orderFlags.contains(PRIORITY)) {
-
-            ordersQueue.offerLast(newOrder);
-
-            for (Order order : ordersQueue) {
-                if (order.getOrderFlags().contains(PRIORITY))
-                    queuePriority.offerLast(order);
-                else
-                    queueNoPriority.offerLast(order);
-            }
-
-            ordersQueue = new ArrayDeque<>();
-
-            for(Order o: queuePriority)
-                ordersQueue.offerLast(o);
-            for(Order o: queueNoPriority)
-                ordersQueue.offerLast(o);
-        }
+        if(orderFlags.contains(PRIORITY))
+            ordersQueue = sortQueueByPriority(ordersQueue);
         else
             ordersQueue.offerLast(newOrder);
 
@@ -94,5 +61,28 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
     @Override
     public Order fetchNextOrder() {
         return ordersQueue.pollFirst();
+    }
+
+
+    private Deque<Order> sortQueueByPriority(Deque<Order> ordersQueue){
+        Deque<Order> queuePriority = new ArrayDeque<>();
+        Deque<Order> queueNoPriority = new ArrayDeque<>();
+
+        ordersQueue.offerLast(newOrder);
+
+        for (Order order : ordersQueue) {
+            if (order.getOrderFlags().contains(PRIORITY))
+                queuePriority.offerLast(order);
+            else
+                queueNoPriority.offerLast(order);
+        }
+
+        ordersQueue = new ArrayDeque<>();
+
+        Deque<Order> finalOrdersQueue = ordersQueue;
+        queuePriority.forEach(a -> finalOrdersQueue.offerLast(a));
+        Deque<Order> finalOrdersQueue1 = ordersQueue;
+        queueNoPriority.forEach(a -> finalOrdersQueue1.offerLast(a));
+        return ordersQueue;
     }
 }
