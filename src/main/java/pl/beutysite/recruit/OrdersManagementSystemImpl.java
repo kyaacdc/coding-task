@@ -20,7 +20,6 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         this.taxOfficeAdapter = taxOfficeAdapter;
         this.itemsRepository = itemsRepository;
     }
-
     @Override
     public void createOrder(int itemId, int customerId, OrderFlag... flags) {
 
@@ -55,7 +54,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
             int size = ordersQueue.size();
             for (int i = 0; i < size; i++){
                 Order o = ordersQueue.getFirst();
-                if(o.getOrderFlags().contains(PRIORITY)) {
+                if(o.getOrderFlags().contains(PRIORITY) &&!isAdded) {
                     ordersQueue.remove(o);
                     ordersQueue.offerFirst(newOrder);
                     ordersQueue.offerFirst(o);
