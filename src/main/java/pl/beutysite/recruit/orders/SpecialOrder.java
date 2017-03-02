@@ -10,8 +10,8 @@ import static pl.beutysite.recruit.TaxCalculationsHelper.*;
 
 public class SpecialOrder extends Order{
 
-    public SpecialOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
-        super(itemId, customerId, orderFlags, price);
+    public SpecialOrder(int itemId, int customerId, BigDecimal price, List<OrderFlag> orderFlags) {
+        super(itemId, customerId, price, orderFlags);
     }
 
     @Override
@@ -27,8 +27,9 @@ public class SpecialOrder extends Order{
             return getMiddlePercentage(priceDISCOUNTED, pricePRIORITY);
         else if(getOrderFlags().contains(DISCOUNTED) && getOrderFlags().contains(INTERNATIONAL))
             return getMiddlePercentage(priceDISCOUNTED, priceINTERNATIONAL);
-        else if(getOrderFlags().contains(PRIORITY) && getOrderFlags().contains(INTERNATIONAL))
+        else if(getOrderFlags().contains(PRIORITY) && getOrderFlags().contains(INTERNATIONAL)) {
             return getMiddlePercentage(pricePRIORITY, priceINTERNATIONAL);
+        }
         else if(getOrderFlags().contains(DISCOUNTED))
             return priceDISCOUNTED;
         else if(getOrderFlags().contains(PRIORITY))

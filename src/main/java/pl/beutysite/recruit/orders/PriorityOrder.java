@@ -10,8 +10,8 @@ import java.util.List;
 
 public class PriorityOrder extends Order {
 
-    public PriorityOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
-        super(itemId, customerId, orderFlags, price);
+    public PriorityOrder(int itemId, int customerId, BigDecimal price,List<OrderFlag> orderFlags) {
+        super(itemId, customerId, price, orderFlags);
     }
     public void process() {
         SeriousEnterpriseEventBus seeb = SeriousEnterpriseEventBusLookup.seeb;

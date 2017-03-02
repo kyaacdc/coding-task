@@ -34,6 +34,6 @@ public class TaxCalculationsHelper {
 
     //Get middle percentage for combined order with two Order Flags
     public static BigDecimal getMiddlePercentage(BigDecimal value1, BigDecimal value2) {
-        return value1.multiply(value2, mathContext).divide(new BigDecimal("2"), mathContext);
+        return value1.add(value2, mathContext).divide(new BigDecimal("2"), mathContext);
     }
 }

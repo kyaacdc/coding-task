@@ -7,8 +7,8 @@ import java.util.List;
 //TODO will have more taxes calculated
 public class InternationalOrder extends Order {
 
-    public InternationalOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
-        super(itemId, customerId, orderFlags, price);
+    public InternationalOrder(int itemId, int customerId, BigDecimal price,List<OrderFlag> orderFlags) {
+        super(itemId, customerId, price, orderFlags);
     }
 
     //Get value of tax from base price

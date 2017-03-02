@@ -40,8 +40,8 @@ public class OrdersManagementSystemImplTest {
         ordersManagementSystem.createOrder(1, 1, OrderFlag.DISCOUNTED, OrderFlag.PRIORITY, OrderFlag.INTERNATIONAL);
         ordersManagementSystem.createOrder(2, 1, OrderFlag.DISCOUNTED, OrderFlag.PRIORITY);
         ordersManagementSystem.createOrder(3, 1, OrderFlag.DISCOUNTED, OrderFlag.INTERNATIONAL);
-        ordersManagementSystem.createOrder(4, 1, OrderFlag.PRIORITY, OrderFlag.INTERNATIONAL);
-        //ordersManagementSystem.createOrder(4, 1, OrderFlag.PRIORITY);
+        //ordersManagementSystem.createOrder(4, 1, OrderFlag.PRIORITY, OrderFlag.INTERNATIONAL);
+        ordersManagementSystem.createOrder(4, 1, OrderFlag.PRIORITY);
 
         //then
         Order nextOrder = ordersManagementSystem.fetchNextOrder();

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class DiscountedOrder extends Order {
 
-    public DiscountedOrder(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
-        super(itemId, customerId, orderFlags, price);
+    public DiscountedOrder(int itemId, int customerId, BigDecimal price,List<OrderFlag> orderFlags) {
+        super(itemId, customerId, price, orderFlags);
     }
 
     @Override

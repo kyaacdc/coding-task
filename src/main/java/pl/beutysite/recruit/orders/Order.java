@@ -16,7 +16,7 @@ public class Order {
 
     private static Random random = new Random();
 
-    public Order(int itemId, int customerId, List<OrderFlag> orderFlags, BigDecimal price) {
+    public Order(int itemId, int customerId, BigDecimal price, List<OrderFlag> orderFlags) {
         this.itemId = itemId;
         this.customerId = customerId;
         this.price = price;

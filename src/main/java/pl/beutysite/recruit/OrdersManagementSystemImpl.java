@@ -32,23 +32,22 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         if(orderFlags.size() == 1) {
             switch (orderFlags.get(0)) {
                 case STANDARD:
-                    newOrder = new Order(itemId, customerId, orderFlags, itemPrice);
+                    newOrder = new Order(itemId, customerId, itemPrice, orderFlags);
                     break;
                 case PRIORITY:
-                    newOrder = new PriorityOrder(itemId, customerId, orderFlags, itemPrice);
+                    newOrder = new PriorityOrder(itemId, customerId, itemPrice, orderFlags);
                     break;
                 case INTERNATIONAL:
-                    newOrder = new InternationalOrder(itemId, customerId, orderFlags, itemPrice);
+                    newOrder = new InternationalOrder(itemId, customerId, itemPrice, orderFlags);
                     break;
                 case DISCOUNTED:
-                    newOrder = new DiscountedOrder(itemId, customerId, orderFlags, itemPrice);
+                    newOrder = new DiscountedOrder(itemId, customerId, itemPrice, orderFlags);
                     break;
             }
         } else if(orderFlags.contains(STANDARD))
-            newOrder = new Order(itemId, customerId, orderFlags, itemPrice);
+            newOrder = new Order(itemId, customerId, itemPrice, orderFlags);
         else
-            newOrder= new SpecialOrder(itemId, customerId, orderFlags, itemPrice);
-
+            newOrder = new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
 
         if(orderFlags.contains(PRIORITY))
             ordersQueue.offerFirst(newOrder);
