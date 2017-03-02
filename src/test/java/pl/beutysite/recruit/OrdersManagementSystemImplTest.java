@@ -36,7 +36,8 @@ public class OrdersManagementSystemImplTest {
         given(itemsRepository.fetchItemPrice(3)).willReturn(new BigDecimal("30.00"));
         given(itemsRepository.fetchItemPrice(4)).willReturn(new BigDecimal("40.00"));
         given(itemsRepository.fetchItemPrice(5)).willReturn(new BigDecimal("50.00"));
-
+        given(itemsRepository.fetchItemPrice(6)).willReturn(new BigDecimal("60.00"));
+        given(itemsRepository.fetchItemPrice(7)).willReturn(new BigDecimal("70.00"));
 
         //when
         ordersManagementSystem.createOrder(1, 1, OrderFlag.DISCOUNTED, OrderFlag.INTERNATIONAL);
@@ -44,20 +45,29 @@ public class OrdersManagementSystemImplTest {
         ordersManagementSystem.createOrder(3, 1, OrderFlag.DISCOUNTED, OrderFlag.INTERNATIONAL);
         ordersManagementSystem.createOrder(4, 1, OrderFlag.PRIORITY, OrderFlag.INTERNATIONAL);
         ordersManagementSystem.createOrder(5, 1, OrderFlag.DISCOUNTED, OrderFlag.PRIORITY, OrderFlag.INTERNATIONAL);
-        //ordersManagementSystem.createOrder(4, 1, OrderFlag.PRIORITY);
+        ordersManagementSystem.createOrder(6, 1, OrderFlag.DISCOUNTED, OrderFlag.PRIORITY);
+        ordersManagementSystem.createOrder(7, 1, OrderFlag.DISCOUNTED, OrderFlag.INTERNATIONAL);
 
         //then
-  /*      Order nextOrder = ordersManagementSystem.fetchNextOrder();
+        Order nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("10.04"));
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("20.07"));
 
         nextOrder = ordersManagementSystem.fetchNextOrder();
         assertThat(nextOrder).isNotNull();
-        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("50.34"));
-        */
-for(int i = 0; i < 5; i++)
-    System.out.println(ordersManagementSystem.fetchNextOrder().getPrice());
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("40.14"));
 
+        nextOrder = ordersManagementSystem.fetchNextOrder();
+        assertThat(nextOrder).isNotNull();
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("50.15"));
+
+        nextOrder = ordersManagementSystem.fetchNextOrder();
+        assertThat(nextOrder).isNotNull();
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("60.2"));
+
+        nextOrder = ordersManagementSystem.fetchNextOrder();
+        assertThat(nextOrder).isNotNull();
+        assertThat(nextOrder.getPrice()).isEqualTo(new BigDecimal("10.00"));
     }
 
     @Test

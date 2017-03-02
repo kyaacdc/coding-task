@@ -48,21 +48,40 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         else
             newOrder = new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
 
+/*
+            Deque<Order> queueNoPriority = new ArrayDeque<>();
+            Deque<Order> queuePriority = new ArrayDeque<>();
+            for(Order o: ordersQueue) {
+                for(OrderFlag of: o.getOrderFlags())
+                    if(!of.equals(PRIORITY)) {
+                        queueNoPriority.add(o);
+                        break;
+                    }
+            }
+
+            ordersQueue = queueNoPriority;
+            */
+
+        Deque<Order> queuePriority = new ArrayDeque<>();
+        Deque<Order> queueNoPriority = new ArrayDeque<>();
+
         if(orderFlags.contains(PRIORITY)) {
 
-            boolean isAdded = false;
-            int size = ordersQueue.size();
-            for (int i = 0; i < size; i++){
-                Order o = ordersQueue.getFirst();
-                if(o.getOrderFlags().contains(PRIORITY) &&!isAdded) {
-                    ordersQueue.remove(o);
-                    ordersQueue.offerFirst(newOrder);
-                    ordersQueue.offerFirst(o);
-                    isAdded = true;
-                }
+            ordersQueue.offerLast(newOrder);
+
+            for (Order order : ordersQueue) {
+                if (order.getOrderFlags().contains(PRIORITY))
+                    queuePriority.offerLast(order);
+                else
+                    queueNoPriority.offerLast(order);
             }
-            if(!isAdded)
-                ordersQueue.offerFirst(newOrder);
+
+            ordersQueue = new ArrayDeque<>();
+
+            for(Order o: queuePriority)
+                ordersQueue.offerLast(o);
+            for(Order o: queueNoPriority)
+                ordersQueue.offerLast(o);
         }
         else
             ordersQueue.offerLast(newOrder);
@@ -70,6 +89,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         //send tax due amount
         taxOfficeAdapter.registerTax(newOrder.getTax());
     }
+
 
     @Override
     public Order fetchNextOrder() {
