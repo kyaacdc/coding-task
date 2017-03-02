@@ -20,35 +20,15 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         this.taxOfficeAdapter = taxOfficeAdapter;
         this.itemsRepository = itemsRepository;
     }
+
     @Override
     public void createOrder(int itemId, int customerId, OrderFlag... flags) {
 
-        //fetch price and calculate discount and taxes
-        BigDecimal itemPrice = itemsRepository.fetchItemPrice(itemId);
-
         List<OrderFlag> orderFlags = Arrays.asList(flags);
 
-        if(orderFlags.size() == 1) {
-            switch (orderFlags.get(0)) {
-                case STANDARD:
-                    newOrder = new Order(itemId, customerId, itemPrice, orderFlags);
-                    break;
-                case PRIORITY:
-                    newOrder = new PriorityOrder(itemId, customerId, itemPrice, orderFlags);
-                    break;
-                case INTERNATIONAL:
-                    newOrder = new InternationalOrder(itemId, customerId, itemPrice, orderFlags);
-                    break;
-                case DISCOUNTED:
-                    newOrder = new DiscountedOrder(itemId, customerId, itemPrice, orderFlags);
-                    break;
-            }
-        } else if(orderFlags.contains(STANDARD))
-            newOrder = new Order(itemId, customerId, itemPrice, orderFlags);
-        else
-            newOrder = new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
+        newOrder = getOrderInstance(itemId, customerId, orderFlags);
 
-        if(orderFlags.contains(PRIORITY))
+        if (orderFlags.contains(PRIORITY))
             ordersQueue = sortQueueByPriority(ordersQueue);
         else
             ordersQueue.offerLast(newOrder);
@@ -64,7 +44,7 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
     }
 
 
-    private Deque<Order> sortQueueByPriority(Deque<Order> ordersQueue){
+    private Deque<Order> sortQueueByPriority(Deque<Order> ordersQueue) {
         Deque<Order> queuePriority = new ArrayDeque<>();
         Deque<Order> queueNoPriority = new ArrayDeque<>();
 
@@ -84,5 +64,27 @@ public class OrdersManagementSystemImpl implements OrdersManagementSystem {
         Deque<Order> finalOrdersQueue1 = ordersQueue;
         queueNoPriority.forEach(a -> finalOrdersQueue1.offerLast(a));
         return ordersQueue;
+    }
+
+    private Order getOrderInstance(int itemId, int customerId, List<OrderFlag> orderFlags) {
+
+        //fetch price and calculate discount and taxes
+        BigDecimal itemPrice = itemsRepository.fetchItemPrice(itemId);
+
+        if (orderFlags.size() == 1) {
+            switch (orderFlags.get(0)) {
+                case STANDARD:
+                    return new Order(itemId, customerId, itemPrice, orderFlags);
+                case PRIORITY:
+                    return new PriorityOrder(itemId, customerId, itemPrice, orderFlags);
+                case INTERNATIONAL:
+                    return new InternationalOrder(itemId, customerId, itemPrice, orderFlags);
+                case DISCOUNTED:
+                    return new DiscountedOrder(itemId, customerId, itemPrice, orderFlags);
+                default:
+                    return new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
+            }
+        }
+        return new SpecialOrder(itemId, customerId, itemPrice, orderFlags);
     }
 }
